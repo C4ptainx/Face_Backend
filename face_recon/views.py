@@ -52,15 +52,8 @@ class AsistenciaListView(APIView):
         asistencias = Asistencia.objects.filter(user=user)
         serializer = AsistenciaSerializer(asistencias, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
-class UserProfileView(APIView):
-  #renderer_classes = [UserRenderer]
-  permission_classes = [IsAuthenticated]
-  def get(self, request, format=None):
-    serializer = UserProfileSerializer(request.user)
-    return Response(serializer.data, status=status.HTTP_200_OK)
-   
-  def post(self, request, format=None):
+    
+    def post(self, request, format=None):
         user = request.user
         asistencia_data = request.data.get('asistencia')  # Obtener el valor de asistencia desde el cuerpo de la solicitud
 
@@ -73,6 +66,13 @@ class UserProfileView(APIView):
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
+class UserProfileView(APIView):
+  #renderer_classes = [UserRenderer]
+  permission_classes = [IsAuthenticated]
+  def get(self, request, format=None):
+    serializer = UserProfileSerializer(request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 class UserChangePasswordView(APIView):
  # renderer_classes = [UserRenderer]
   permission_classes = [IsAuthenticated]
