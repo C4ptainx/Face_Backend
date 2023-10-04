@@ -54,19 +54,17 @@ class AsistenciaListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     def post(self, request, format=None):
-        user = request.user
-        asistencia_data = request.data.get('asistencia')  # Obtener el valor de asistencia desde el cuerpo de la solicitud
-
         try:
-            # Crear un nuevo registro de asistencia para el usuario actual
-            asistencia = Asistencia.objects.create(user=user, valor_escaneado=asistencia_data)
+            data = request.data
+            data['user'] = request.user.id
+            serializer = AsistenciaSerializer(data=data)
 
-            serializer = AsistenciaSerializer(asistencia)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
-            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 class UserProfileView(APIView):
   #renderer_classes = [UserRenderer]
   permission_classes = [IsAuthenticated]

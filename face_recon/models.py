@@ -39,7 +39,10 @@ class UserManager(BaseUserManager):
 #  Custom User Model
 class Asistencia(models.Model):
     user = models.ForeignKey('User', on_delete=models.CASCADE)
-    valor_escaneado = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
+    carrera = models.CharField(max_length=200)
+    grupo = models.CharField(max_length=200)
+    puntaje = models.CharField(max_length=10)
     fecha_registro = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
