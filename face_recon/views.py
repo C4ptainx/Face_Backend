@@ -11,7 +11,11 @@ from rest_framework import generics
 from face_recon import serializers 
 import json 
 from .serializers import AsistenciaSerializer
-from .models import Asistencia
+from .models import Asistencia, User
+
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 # Generate Token Manually
 def get_tokens_for_user(user):
@@ -71,6 +75,7 @@ class UserProfileView(APIView):
   def get(self, request, format=None):
     serializer = UserProfileSerializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+  
 class UserChangePasswordView(APIView):
  # renderer_classes = [UserRenderer]
   permission_classes = [IsAuthenticated]
@@ -81,9 +86,15 @@ class UserChangePasswordView(APIView):
 
 class SendPasswordResetEmailView(APIView):
   #renderer_classes = [UserRenderer]
+  subject = 'Bienvenido a Face Recon'
+  message = 'Espero que te encuentres bien. Nos gustaría ayudarte a restablecer tu contraseña para que puedas acceder nuevamente a tu cuenta. Sabemos lo frustrante que puede ser olvidar la contraseña, pero no te preocupes, estamos aquí para facilitar este proceso.'
+  email_from = 'facereconcompany@gmail.com'
+
   def post(self, request, format=None):
     serializer = SendPasswordResetEmailSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+    recipient_list = [serializer.validated_data['email']]
+    send_mail(self.subject, self.message, self.email_from, recipient_list)
     return Response({'msg':'Password Reset link send. Please check your Email'}, status=status.HTTP_200_OK)
 
 class UserPasswordResetView(APIView):

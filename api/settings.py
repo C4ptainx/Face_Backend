@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'face_recon',
 ]
 
@@ -149,16 +150,26 @@ AUTH_USER_MODEL = 'face_recon.User'
 EMAIL_BACKEND="django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+EMAIL_HOST_USER = 'facereconcompany@gmail.com'
+EMAIL_HOST_PASSWORD = 'ualy eqpq uwzj hchs'
 EMAIL_USE_TLS = True
 
 
 # JWT Settings
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
 
+    'ALGORITHM': 'HS256',
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+    
     'AUTH_HEADER_TYPES': ('Bearer',),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
