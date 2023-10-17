@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import BaseUserManager,AbstractBaseUser
+from django.utils import timezone
 
 #  Custom User Manager
 class UserManager(BaseUserManager):
@@ -43,7 +44,7 @@ class Asistencia(models.Model):
     carrera = models.CharField(max_length=200)
     grupo = models.CharField(max_length=200)
     puntaje = models.CharField(max_length=10)
-    fecha_registro = models.DateTimeField(auto_now_add=True)
+    fecha_registro = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f'Asistencia de {self.user.name} - {self.fecha_registro}'
