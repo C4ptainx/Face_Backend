@@ -48,7 +48,7 @@ class Asistencia(models.Model):
 
     def save(self, *args, **kwargs):
         # Cambiar el formato de fecha antes de guardar el objeto
-        self.fecha_registro = self.fecha_registro.strftime('%Y-%m-%d %H:%M:%S')
+        self.fecha_registro = self.fecha_registro.strftime('%Y-%m-%d %H:%M')
         super().save(*args, **kwargs)
 
     def __str__(self):
