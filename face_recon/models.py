@@ -47,12 +47,13 @@ class Asistencia(models.Model):
     fecha_registro = models.DateTimeField(default=timezone.now, editable=False)
 
     def save(self, *args, **kwargs):
-        # Cambiar el formato de fecha antes de guardar el objeto
-        self.fecha_registro = self.fecha_registro.strftime('%Y-%m-%d %H:%M')
         super().save(*args, **kwargs)
 
+    def formatted_fecha_registro(self):
+        return self.fecha_registro.strftime('%Y-%m-%d %H:%M')
+
     def __str__(self):
-        return f'Asistencia de {self.user.name} - {self.fecha_registro}'
+        return f'Asistencia de {self.user.name} - {self.formatted_fecha_registro()}'
 
 class User(AbstractBaseUser):
   name = models.CharField(max_length=200)
