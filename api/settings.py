@@ -86,10 +86,14 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-     'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',
-        conn_max_age=600
-    )
+'   default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'railway',
+        'USER': 'root',
+        'PASSWORD': 'pISdOpbJjqnJRWNrULCp',
+        'HOST': 'containers-us-west-200.railway.app',
+        'PORT':'7113',
+    }
 }
 
 # JWT Configuration
