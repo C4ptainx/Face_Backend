@@ -36,7 +36,7 @@ class UserLoginSerializer(serializers.ModelSerializer):
 class AsistenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Asistencia
-        fields = ['id', 'name', 'carrera', 'grupo', 'puntaje', 'user']
+        fields = ['id', 'name', 'carrera', 'grupo', 'materia', 'puntaje', 'user']
           
 class UserProfileSerializer(serializers.ModelSerializer):
   asistencia = AsistenciaSerializer(many=True, read_only=True)  # Utilizamos el serializer de Asistencia para representar la relación
