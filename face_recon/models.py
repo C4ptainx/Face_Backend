@@ -43,7 +43,8 @@ class Asistencia(models.Model):
     name = models.CharField(max_length=200)
     carrera = models.CharField(max_length=200)
     grupo = models.CharField(max_length=200)
-    puntaje = models.CharField(max_length=200)
+    materia = models.CharField(max_length=200)
+    puntaje = models.CharField(max_length=20)
     fecha_registro = models.DateTimeField(default=timezone.now, editable=False)
 
     def save(self, *args, **kwargs):
