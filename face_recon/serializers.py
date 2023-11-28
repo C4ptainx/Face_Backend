@@ -11,7 +11,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
   password2 = serializers.CharField(style={'input_type':'password'}, write_only=True)
   class Meta:
     model = User
-    fields=['name', 'especialidad', 'email', 'password', 'password2', 'tc']
+    fields=['name', 'especialidad', 'picture', 'email', 'password', 'password2', 'tc',]
     extra_kwargs={
       'password':{'write_only':True}
     }
@@ -42,7 +42,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
   asistencia = AsistenciaSerializer(many=True, read_only=True)  # Utilizamos el serializer de Asistencia para representar la relación
   class Meta:
     model = User
-    fields = ['id', 'name', 'especialidad', 'email', 'asistencia']
+    fields = ['id', 'name', 'especialidad', 'picture', 'email', 'asistencia']
 
 class UserChangePasswordSerializer(serializers.Serializer):
   password = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
