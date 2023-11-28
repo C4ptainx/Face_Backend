@@ -4,7 +4,7 @@ from django.utils import timezone
 
 #  Custom User Manager
 class UserManager(BaseUserManager):
-  def create_user(self, name, especialidad, picture, email, tc, password=None, password2=None):
+  def create_user(self, name, especialidad,  images, email, tc, password=None, password2=None):
       """
       Creates and saves a User with the given email, name, tc and password.
       """
@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
           email=self.normalize_email(email),
           name=name,
           especialidad=especialidad,
-          picture=picture,
+          images= images,
           tc=tc,
       )
 
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
       user.save(using=self._db)
       return user
 
-  def create_superuser(self, email, name, tc, especialidad, picture, password=None):
+  def create_superuser(self, email, name, tc, especialidad,  images, password=None):
       """
       Creates and saves a superuser with the given email, name, tc and password.
       """
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
           email=email,
           name=name,
           especialidad=especialidad,
-          picture=picture,
+          images= images,
           tc=tc,
           password=password,
       )
@@ -59,10 +59,7 @@ class Asistencia(models.Model):
         return f'Asistencia de {self.user.name} - {self.formatted_fecha_registro()}'
 
 class User(AbstractBaseUser):
-  
-  def nameFile(instance, filename):
-    return '/'.join(['images', str(instance.name), filename])
-  
+
   name = models.CharField(max_length=200)
   especialidad = models.CharField(max_length=200)
   email = models.EmailField(
@@ -70,7 +67,7 @@ class User(AbstractBaseUser):
       max_length=255,
       unique=True,
   )
-  picture = models.ImageField(upload_to=nameFile, blank=True)
+  images = models.ImageField('images/')  
   tc = models.BooleanField()
   is_active = models.BooleanField(default=True)
   is_admin = models.BooleanField(default=False)
