@@ -5,6 +5,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from face_recon.utils import Util
 from .models import Asistencia
+from django.conf import settings
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
   # We are writing this becoz we need confirm password field in our Registratin Request
@@ -39,10 +40,18 @@ class AsistenciaSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'carrera', 'grupo', 'materia', 'puntaje', 'user']
           
 class UserProfileSerializer(serializers.ModelSerializer):
-  asistencia = AsistenciaSerializer(many=True, read_only=True)  # Utilizamos el serializer de Asistencia para representar la relación
+  asistencia = AsistenciaSerializer(many=True, read_only=True)  
+  #image_url = serializers.SerializerMethodField()
+  images = serializers.SerializerMethodField()
+
   class Meta:
     model = User
     fields = ['id', 'name', 'especialidad', 'images', 'email', 'asistencia']
+
+  def get_images(self, obj):
+    if obj.images:
+      return f"{settings.BASE_URL}{obj.images.url}"
+    return None
 
 class UserChangePasswordSerializer(serializers.Serializer):
   password = serializers.CharField(max_length=255, style={'input_type':'password'}, write_only=True)
