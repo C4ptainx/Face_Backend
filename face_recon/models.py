@@ -4,7 +4,7 @@ from django.utils import timezone
 
 #  Custom User Manager
 class UserManager(BaseUserManager):
-  def create_user(self, name, especialidad,  images, email, tc, password=None, password2=None):
+  def create_user(self, name, especialidad, images, email, tc, password=None, password2=None):
       """
       Creates and saves a User with the given email, name, tc and password.
       """
@@ -15,7 +15,7 @@ class UserManager(BaseUserManager):
           email=self.normalize_email(email),
           name=name,
           especialidad=especialidad,
-          images= images,
+          images=images,
           tc=tc,
       )
 
@@ -23,7 +23,7 @@ class UserManager(BaseUserManager):
       user.save(using=self._db)
       return user
 
-  def create_superuser(self, email, name, tc, especialidad,  images, password=None):
+  def create_superuser(self, email, name, tc, especialidad, images, password=None):
       """
       Creates and saves a superuser with the given email, name, tc and password.
       """
@@ -31,7 +31,7 @@ class UserManager(BaseUserManager):
           email=email,
           name=name,
           especialidad=especialidad,
-          images= images,
+          images=images,
           tc=tc,
           password=password,
       )
@@ -67,7 +67,7 @@ class User(AbstractBaseUser):
       max_length=255,
       unique=True,
   )
-  images = models.ImageField('images/')  
+  images = models.ImageField(upload_to='user_images/', null=True, blank=True)  
   tc = models.BooleanField()
   is_active = models.BooleanField(default=True)
   is_admin = models.BooleanField(default=False)

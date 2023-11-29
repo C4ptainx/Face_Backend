@@ -30,6 +30,10 @@ class UserRegistrationView(APIView):
   def post(self, request, format=None):
     serializer = UserRegistrationSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
+    # Extraer la imagen del request.data y asociarla al campo 'image' del usuario
+    image_data = request.data.get('images')
+    if image_data:
+      serializer.validated_data['images'] = image_data
     user = serializer.save()
     token = get_tokens_for_user(user)
     return Response({'token':token, 'msg':'Registration Successful'}, status=status.HTTP_201_CREATED)
